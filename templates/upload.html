@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Chest X-ray - HealthAssist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .drop-zone.dragover {
+            background: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 border-b">
+        <div class="text-xl font-bold">HealthAssist</div>
+        <div class="space-x-6 flex items-center">
+            <a href="/dashboard" class="hover:underline">Dashboard</a>
+            <a href="/reports" class="hover:underline">Reports</a>
+            <a href="/settings" class="hover:underline">Settings</a>
+            <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="Profile" class="w-8 h-8 rounded-full">
+        </div>
+    </nav>
+
+    <!-- Upload Section -->
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-16">
+
+        <h1 class="text-3xl font-bold mb-8 text-center">Upload Chest X-ray</h1>
+
+        <form id="uploadForm" method="POST" enctype="multipart/form-data" class="w-full max-w-xl">
+
+            <div id="drop-zone" class="drop-zone rounded-lg mb-8">
+                <p class="font-semibold mb-2">Drag and drop or browse files</p>
+                <p class="text-sm text-gray-500 mb-4">Supported formats: JPEG, PNG, DICOM</p>
+
+                <label for="fileInput" class="bg-gray-200 text-gray-700 px-4 py-2 rounded cursor-pointer hover:bg-gray-300">
+                    Browse Files
+                </label>
+
+                <input type="file" name="xray" id="fileInput" accept=".jpg,.jpeg,.png,.dcm" class="hidden" required>
+                <p id="fileName" class="mt-4 text-gray-600"></p>
+            </div>
+
+            <button type="submit" 
+                    class="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+                Start AI Analysis
+            </button>
+        </form>
+
+    </main>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+
+        // Drag & Drop functionality
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                fileName.textContent = e.dataTransfer.files[0].name;
+            }
+        });
+
+        // File browse display
+        fileInput.addEventListener('change', (e) => {
+            if (fileInput.files.length > 0) {
+                fileName.textContent = fileInput.files[0].name;
+            }
+        });
+    </script>
+
+</body>
+</html>
+

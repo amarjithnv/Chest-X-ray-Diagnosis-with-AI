@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result - HealthAssist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 border-b">
+        <div class="text-xl font-bold">HealthAssist</div>
+        <div class="space-x-6 flex items-center">
+            <a href="/" class="hover:underline">Home</a>
+            <a href="/upload" class="hover:underline">Upload Another</a>
+        </div>
+    </nav>
+
+    <!-- Result Section -->
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-16 text-center">
+
+        <h1 class="text-3xl font-bold mb-8">AI Analysis Result</h1>
+
+        <div class="w-full max-w-lg mb-8">
+            <img src="{{ url_for('static', filename='uploads/' + image_path) }}" alt="Uploaded X-ray" class="w-full rounded-lg shadow-lg">
+        </div>
+
+        <div class="text-xl font-semibold mb-4">
+            Diagnosis: <span class="text-blue-600">{{ diagnosis }}</span>
+        </div>
+
+        <div class="text-lg text-gray-700 mb-8">
+            Confidence: {{ confidence }}%
+        </div>
+
+        <a href="/upload" class="bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
+            Analyze Another X-ray
+        </a>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-sm text-gray-500 border-t">
+        &copy; 2025 HealthAssist. All rights reserved.
+    </footer>
+
+</body>
+</html>
